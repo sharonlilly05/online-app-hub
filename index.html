@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>🌐 Online App Hub</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <h1>🌐 Online App Hub</h1>
+  </header>
+  <main>
+    <div class="app-list">
+      {% for app in apps %}
+      <div class="app-card">
+        <img src="{{ app.image }}" alt="{{ app.name }}">
+        <h2>{{ app.name }}</h2>
+        <p>{{ app.description[:100] }}...</p>
+	<a href="{{ url_for('home') }}" class="btn">Learn More</a>
+      </div>
+      {% endfor %}
+    </div>
+  </main>
+  <footer>
+    <p>© 2025 Online App Hub | Built with ❤️ using Flask</p>
+  </footer>
+</body>
+</html>
