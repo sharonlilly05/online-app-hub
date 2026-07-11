@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Study Apps</h2>
+<p>Boost your learning with these study tools.</p>
+<section class="external-studies">
+  <h3>Popular Study Apps</h3>
+  <div class="study-links">
+    {% for study in external_studies %}
+      <a href="{{ url_for('external_study_redirect', study_id=study.id) }}" target="_blank" rel="noopener noreferrer" class="shop-link">
+        {% if study.logo_url %}
+          <img src="{{ study.logo_url }}" alt="{{ study.name }} logo" class="shop-logo"
+            onerror="this.style.display='none';this.parentNode.querySelector('.shop-name-fallback').style.display='inline-block';"
+            onload="this.parentNode.querySelector('.shop-name-fallback').style.display='none';">
+          <div class="shop-name-fallback" style="display:none">{{ study.name }}</div>
+        {% else %}
+          <div class="shop-name-fallback">{{ study.name }}</div>
+        {% endif %}
+        <div class="shop-meta"><div class="shop-name">Study on {{ study.name }}</div></div>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Styles for this page are in static/style.css -->
+{% endblock %}

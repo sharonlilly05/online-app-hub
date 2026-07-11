@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Messaging Apps</h2>
+<p>Popular messaging apps to stay connected with friends, family, and colleagues.</p>
+<section class="external-messaging">
+  <h3>Popular Messaging Apps</h3>
+  <div class="study-links">
+    {% for app in external_messaging %}
+      <a href="{{ url_for('external_messaging_redirect', messaging_id=app.id) }}" target="_blank" rel="noopener noreferrer" class="shop-link">
+        {% if app.logo_url %}
+          <img src="{{ app.logo_url }}" alt="{{ app.name }} logo" class="shop-logo"
+            onerror="this.style.display='none';this.parentNode.querySelector('.shop-name-fallback').style.display='inline-block';"
+            onload="this.parentNode.querySelector('.shop-name-fallback').style.display='none';">
+          <div class="shop-name-fallback" style="display:none">{{ app.name }}</div>
+        {% else %}
+          <div class="shop-name-fallback">{{ app.name }}</div>
+        {% endif %}
+        <div class="shop-meta"><div class="shop-name">{{ app.name }}</div></div>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

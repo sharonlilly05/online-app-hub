@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<h2>Our Products</h2>
+	<p>Explore our products and popular shopping platforms below.</p>
+
+	<section class="external-shops">
+		<h3>Shop on Popular Platforms</h3>
+		<div class="shop-links">
+			{# Render each partner as a separate block that links to the redirect endpoint (tracks clicks) #}
+			{% for shop in external_shops %}
+				<a href="{{ url_for('external_shop_redirect', shop_id=shop.id) }}" target="_blank" rel="noopener noreferrer" class="shop-link">
+					{% if shop.logo_url %}
+						<img src="{{ shop.logo_url }}" alt="{{ shop.name }} logo" class="shop-logo"
+							onerror="this.style.display='none';this.parentNode.querySelector('.shop-name-fallback').style.display='inline-block';"
+							onload="this.parentNode.querySelector('.shop-name-fallback').style.display='none';">
+						<div class="shop-name-fallback" style="display:none">{{ shop.name }}</div>
+					{% else %}
+						<div class="shop-name-fallback">{{ shop.name }}</div>
+					{% endif %}
+					<div class="shop-meta">
+						<div class="shop-name">Shop on {{ shop.name }}</div>
+					</div>
+				</a>
+			{% endfor %}
+		</div>
+	</section>
+
+	<section class="product-grid">
+		{% for product in products %}
+			<div class="product-card">
+				{% if product.image_url %}
+					<img src="{{ product.image_url }}" alt="{{ product.name }}" class="product-image">
+				{% endif %}
+				<h3>{{ product.name }}</h3>
+				<p class="price">₹{{ "%.2f"|format(product.price) }}</p>
+				<p class="description">{{ product.description }}</p>
+				<div class="product-actions">
+					<a href="{{ url_for('ecommerce_detail', product_id=product.id) }}" class="btn btn-primary">View Details</a>
+					<form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST" class="add-to-cart-form">
+						<input type="number" name="quantity" value="1" min="1" class="quantity-input">
+						<button type="submit" class="btn btn-success">Add to Cart</button>
+					</form>
+				</div>
+			</div>
+		{% endfor %}
+	</section>
+
+	<!-- Styling for this page lives in static/style.css -->
+{% endblock %}
